@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { selectLogged, selectUser } from "../Login/LoginSlicer";
+import { selectLogged, selectUser, selectToken } from "../Login/LoginSlicer";
 import { useAppSelector } from "../app/hooks";
 import User from "../Screen/User";
 import { toast, Slide, ToastContainer } from "react-toastify";
@@ -12,27 +12,28 @@ const Header = () => {
   const [getToken, setGetToken] = useState("");
   const [username, setUserName] = useState("");
   let logged = useAppSelector(selectLogged);
-  let user = useAppSelector(selectUser);
+  let toke = useAppSelector(selectToken);
 
   // Navbar / Nevigatin bar
   useEffect(() => {
+    
     if (!getToken) {
-      const tok = localStorage.getItem("token");
-      setGetToken(JSON.parse(String(tok)));
-      const userInlocalStorge = localStorage.getItem("name");
-      setUserName(JSON.parse(String(userInlocalStorge)));
+      // const tok = localStorage.getItem("token");
+      // setGetToken(JSON.parse(String(tok)));
+      const userInlocalStorge = localStorage.getItem("username");
+      // setUserName(JSON.parse(String(userInlocalStorge)));
 
       if (logged) {
         toast.success(`Welcome ${""}${userInlocalStorge}`, {
           position: toast.POSITION.TOP_CENTER,
         });
-        setTimeout(function () {
-          window.location.replace("/");
-        }, 1000);
+        // setTimeout(function () {
+        //   window.location.replace("/");
+        // }, 1000);
       }
     }
   }, [logged]);
-
+console.log(toke)
   return (
     <div>
       <ToastContainer transition={Slide} />

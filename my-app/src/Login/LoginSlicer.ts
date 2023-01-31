@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
 import  {loginUser, RegisterUser, logOutUser}  from "./LogAPI";
+import jwt_decode from "jwt-decode";
 
 export interface LoginState {
   logged: boolean;
   token: String
   username: string,
   status: Number
+  is_superuser: boolean
 
 }
 
@@ -14,7 +16,8 @@ const initialState: LoginState = {
   logged: false,
   token: '',
   username: '',
-  status: 0
+  status: 0,
+  is_superuser: false
 
 };
 
@@ -52,12 +55,23 @@ export const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.fulfilled, (state, action) => {
+        interface JwtPayload {
+          exp: number;
+          iat: number;
+          jti: string;
+          token_type: string;
+          user_id: number;
+          username: string;
+          is_superuser: boolean;
+        }  
+        const decoded = jwt_decode(action.payload.data.access) as JwtPayload;
+        console.log(jwt_decode(action.payload.data.access))
         state.token = action.payload.data['refresh']
-        state.username =action.payload.data['username']
-        state.status =action.payload.status
-        localStorage.setItem('token', JSON.stringify(action.payload.data['refresh']))
-        localStorage.setItem('name', JSON.stringify(action.payload.data['username']))
-        localStorage.setItem('admin', JSON.stringify(action.payload.data['admin']))
+        state.username =decoded.username
+        state.is_superuser = decoded.is_superuser
+        localStorage.setItem('token', JSON.stringify(state.token))
+        localStorage.setItem('username', JSON.stringify(state.username))
+        localStorage.setItem('admin', JSON.stringify(state.is_superuser))
         state.logged = true;
 
 
@@ -78,5 +92,5 @@ export const { getToken } = loginSlice.actions;
 export const selectLogged = (state: RootState) => state.login.logged;
 export const selectToken = (state: RootState) => state.login.token;
 export const selectUser = (state: RootState) => state.login.username;
-export const selectStatus = (state: RootState) => state.login.status;
+export const selectAdmin = (state: RootState) => state.login.is_superuser;
 export default loginSlice.reducer;

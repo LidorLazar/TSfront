@@ -2,12 +2,19 @@ import React, { useState } from 'react'
 import { Table, Button } from "react-bootstrap";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import { useAppSelector } from "../app/hooks";
+import { selectLogged } from "../Login/LoginSlicer";
+
+
+
+
 const Reviews = () => {
   const [star, setStar] = useState(0)
   const [comment, setComment] = useState('')
+  let logged = useAppSelector(selectLogged);
+
   return (
     <div>
-{star}
 {comment}
 <Table striped bordered hover>
       <thead>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { selectLogged, loginAsync, selectStatus} from "./LoginSlicer";
+import { selectLogged, loginAsync} from "./LoginSlicer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { Form, Button } from 'react-bootstrap'
 
@@ -10,7 +10,7 @@ const Login = () => {
   const [user, setUser] = useState("");
   const [okStatus, setokStatus] = useState(200);
   const [password, setPassword] = useState("");
-  const status = useAppSelector(selectStatus);
+  const test = useAppSelector(selectLogged);
   const dispatch = useAppDispatch();
 
 
