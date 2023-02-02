@@ -8,7 +8,7 @@ export function loginUser(detalis:any) {;
 
 
   export function RegisterUser(detalis:any) {;
-    console.log(detalis)
+
     return new Promise<{ data: any }>((resolve) =>
     axios.post("http://127.0.0.1:8000/api/users/register/", { email: detalis.email , password: detalis.password, name: detalis.username }).then((res) => resolve({ data: res.data })))}
   

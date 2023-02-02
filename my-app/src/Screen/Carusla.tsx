@@ -16,7 +16,6 @@ const Carusel = () => {
     const [imageCarusla3, setImageCarusla3] = useState('')
     useEffect(() => {
         if(image[0]){
-          console.log(image)
             setImageCarusla(image[0].image)
             setImageCarusla2(image[1].image)
             setImageCarusla3(image[1].image3)

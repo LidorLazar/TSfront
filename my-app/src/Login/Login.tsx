@@ -8,14 +8,24 @@ import { Form, Button } from 'react-bootstrap'
 
 const Login = () => {
   const [user, setUser] = useState("");
-  const [okStatus, setokStatus] = useState(200);
   const [password, setPassword] = useState("");
-  const test = useAppSelector(selectLogged);
   const dispatch = useAppDispatch();
+  let logged = useAppSelector(selectLogged);
 
+  useEffect(() => {
+    if (logged) {
+      toast.success(`Welcome ${""}${user}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      setTimeout(function () {
+        window.location.replace("/")
+      },2000)
+    }
+}, [logged])
 
   return (
     <div>
+
   
       <h1>Login</h1>
       <Form >

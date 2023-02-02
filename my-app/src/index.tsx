@@ -13,14 +13,18 @@ import "../src/index.css";
 import Category from "./Screen/Category";
 import Login from "./Login/Login";
 import RegisterPage from "./Screen/Registar";
-import Profile from "./Screen/Profile";
+import Profile from "./Screen/UserProfile";
 import Orders from "./Screen/Orders";
+import UserProfile from "./Screen/UserProfile";
+import UpdateProfile from "./Screen/UpdateProfile";
 
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
+
+
   <Provider store={store}>
     <BrowserRouter>
       <Header />
@@ -34,7 +38,8 @@ root.render(
             <Route path="login/" element={<Login />} />
             <Route path="registar/" element={<RegisterPage />} />
             <Route path="orders/" element={<Orders />} />
-            <Route path="profile/" element={<Profile />} />
+            <Route path="profile/" element={<UserProfile />} />
+            <Route path="profile/update" element={<UpdateProfile />} />
           </Routes>
         </Container>
       </main>

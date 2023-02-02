@@ -1,42 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { selectLogged, selectUser, selectToken } from "../Login/LoginSlicer";
-import { useAppSelector } from "../app/hooks";
+import { selectLogged, CurrectLogged, IsAdmin, CorrectToken } from "../Login/LoginSlicer";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import User from "../Screen/User";
-import { toast, Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "../Screen/Cart";
+import { CorrectCart } from '../Cart/CartSlice'
 
 const Header = () => {
   const [getToken, setGetToken] = useState("");
   const [username, setUserName] = useState("");
   let logged = useAppSelector(selectLogged);
-  let toke = useAppSelector(selectToken);
+  const dispatch = useAppDispatch()
 
   // Navbar / Nevigatin bar
   useEffect(() => {
-    
-    if (!getToken) {
-      // const tok = localStorage.getItem("token");
-      // setGetToken(JSON.parse(String(tok)));
-      const userInlocalStorge = localStorage.getItem("username");
-      // setUserName(JSON.parse(String(userInlocalStorge)));
+    if(localStorage.getItem("token")){
+      dispatch(CurrectLogged())
+      dispatch(IsAdmin())
+      dispatch(CorrectToken())
+      dispatch(CorrectCart())
 
-      if (logged) {
-        toast.success(`Welcome ${""}${userInlocalStorge}`, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        // setTimeout(function () {
-        //   window.location.replace("/");
-        // }, 1000);
-      }
+    }
+    if (!getToken) {
+      const tok = localStorage.getItem("token");
+      setGetToken(JSON.parse(String(tok)));
+      const userInlocalStorge = localStorage.getItem("username");
+      setUserName(JSON.parse(String(userInlocalStorge)));
+
     }
   }, [logged]);
-console.log(toke)
+
+ 
+
   return (
     <div>
-      <ToastContainer transition={Slide} />
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand as={Link} to="/">

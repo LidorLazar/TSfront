@@ -3,17 +3,24 @@ import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { Link } from "react-router-dom";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import { selectProduct, GetAllProducttAsync } from "./Product/ProductSlice";
-import { addToCard,  } from './Cart/CartSlice'
-import Carusel from "./Screen/Carusla";
+import { addToCard } from './Cart/CartSlice'
+import { CurrectLogged, selectLogged } from './Login/LoginSlicer'
+
+
+
 
 
 const App = () => {
   const product = useAppSelector(selectProduct);
+  const logged = useAppSelector(selectLogged);
   const dispatch = useAppDispatch();
-  useEffect(() => { dispatch(GetAllProducttAsync())}, [])
+  useEffect(() => { 
+    dispatch(GetAllProducttAsync())
+
+  }
+    , [logged])
   const SERVER = "http://127.0.0.1:8000"
 
-  
   // Home screen/page , Run in map loop all the product and display in home page
   return (
 

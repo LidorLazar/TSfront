@@ -49,8 +49,10 @@ export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    getToken: (state)=> {if(localStorage.getItem("token") || "") {state.token = localStorage.getItem("token") || ""}},
-    
+   
+    CurrectLogged: (state) => {if(localStorage.getItem("token")){ state.logged = true}},
+    IsAdmin: (state) => {if(localStorage.getItem("admin") === 'true'){ state.is_superuser = true}},
+    CorrectToken: (state) => {if(localStorage.getItem("token")){ state.token = JSON.parse(String(localStorage.getItem("token")))}}
   },
   extraReducers: (builder) => {
     builder
@@ -65,8 +67,8 @@ export const loginSlice = createSlice({
           is_superuser: boolean;
         }  
         const decoded = jwt_decode(action.payload.data.access) as JwtPayload;
-        console.log(jwt_decode(action.payload.data.access))
-        state.token = action.payload.data['refresh']
+        // console.log(jwt_decode(action.payload.data.access))
+        state.token = action.payload.data['access']
         state.username =decoded.username
         state.is_superuser = decoded.is_superuser
         localStorage.setItem('token', JSON.stringify(state.token))
@@ -84,11 +86,11 @@ export const loginSlice = createSlice({
           window.location.replace("/");
         }, 1000);
         state.logged = false;
-      });
+      })
   },
 });
 
-export const { getToken } = loginSlice.actions;
+export const { CurrectLogged, IsAdmin, CorrectToken } = loginSlice.actions;
 export const selectLogged = (state: RootState) => state.login.logged;
 export const selectToken = (state: RootState) => state.login.token;
 export const selectUser = (state: RootState) => state.login.username;
