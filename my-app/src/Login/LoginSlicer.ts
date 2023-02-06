@@ -3,6 +3,7 @@ import { RootState, AppThunk } from "../app/store";
 import  {loginUser, RegisterUser, logOutUser}  from "./LogAPI";
 import jwt_decode from "jwt-decode";
 
+
 export interface LoginState {
   logged: boolean;
   token: String
@@ -76,9 +77,9 @@ export const loginSlice = createSlice({
         state.logged = true;
 
 
-      })
-      .addCase(registerAsync.fulfilled, (state, action) => {
-        console.log(action.payload);
+      }).addCase(registerAsync.fulfilled, (state, action) => {
+          state.status = action.payload.status
+    
       }).addCase(logOutAsync.fulfilled, (state, action) => {
         localStorage.clear()
         setTimeout(function() {
@@ -94,4 +95,5 @@ export const selectLogged = (state: RootState) => state.login.logged;
 export const selectToken = (state: RootState) => state.login.token;
 export const selectUser = (state: RootState) => state.login.username;
 export const selectAdmin = (state: RootState) => state.login.is_superuser;
+export const selecStatus = (state: RootState) => state.login.status;
 export default loginSlice.reducer;

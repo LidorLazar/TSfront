@@ -9,8 +9,6 @@ import Carusel from "./Screen/Carusla";
 
 
 
-
-
 const App = () => {
   const product = useAppSelector(selectProduct);
   const logged = useAppSelector(selectLogged);
