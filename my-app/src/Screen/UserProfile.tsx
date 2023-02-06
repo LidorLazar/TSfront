@@ -10,7 +10,8 @@ import UpdateProfile from "./UpdateProfile";
 const UserProfile = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {dispatch(GetUserPofileAsync())}, []);
-  const {name, username, admin, email}= useAppSelector((state)=> state.user)
+  
+  const {name, is_superuser, email, address, city, phoneNumber, image}= useAppSelector((state)=> state.user)
 
 
 
@@ -19,17 +20,23 @@ const UserProfile = () => {
     <Card>
       <Card.Header as="h2">Profile Information</Card.Header>
       <ListGroup variant="flush">
-        <ListGroup.Item>Name: {name} </ListGroup.Item>
-        <ListGroup.Item>Email: {email}</ListGroup.Item>
-        <ListGroup.Item>admin: {String(admin)}</ListGroup.Item>
-        <ListGroup.Item>username: {username}</ListGroup.Item>
+        <ListGroup.Item>Name: <strong>{name}</strong> </ListGroup.Item>
+        <ListGroup.Item>Email: <strong>{email}</strong></ListGroup.Item>
+        <ListGroup.Item>admin: <strong>{String(is_superuser)}</strong></ListGroup.Item>
+        <ListGroup.Item>address: <strong>{address}</strong></ListGroup.Item>
+        <ListGroup.Item>city: <strong>{city}</strong></ListGroup.Item>
+        <ListGroup.Item>phone_number: <strong>{phoneNumber}</strong></ListGroup.Item>
+        <ListGroup.Item>image profile: <img style={{width: "90px", height: "90px"}} src={`http://127.0.0.1:8000${image}`}/></ListGroup.Item>
+
       </ListGroup>
     </Card>
     <br/>
     <br/>
     <br/>
     <br/>
-    <Button>Update Profile</Button>
+    <Link to={'/profile/update'}>
+      <Button variant="primary" type="submit" className='btn btn-light'>Click Here to Update Information</Button>
+    </Link>
     </div>
   );
 };

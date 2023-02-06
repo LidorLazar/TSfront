@@ -5,6 +5,7 @@ import { Col, Row, Card, Button } from "react-bootstrap";
 import { selectProduct, GetAllProducttAsync } from "./Product/ProductSlice";
 import { addToCard } from './Cart/CartSlice'
 import { CurrectLogged, selectLogged } from './Login/LoginSlicer'
+import Carusel from "./Screen/Carusla";
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
   return (
 
     <div>
+      {/* <Carusel/> */}
       <h1>Top 10 sale</h1>
       <Row style={{margin:'20px'}}>
         {product.map((product, index) => (

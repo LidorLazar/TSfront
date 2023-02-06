@@ -1,61 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Button } from "react-bootstrap";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { selectLogged } from "../Login/LoginSlicer";
-
+import { selectReview, GetRivewAsync, SendReviewAsync } from "../reviews/ReviewSlice";
+import { useParams } from 'react-router-dom';
 
 
 
 const Reviews = () => {
-  const [star, setStar] = useState(0)
-  const [comment, setComment] = useState('')
+  const [rating, setRating] = useState(0)
+  const [description, setDescription] = useState('')
   let logged = useAppSelector(selectLogged);
+  const dispatch =  useAppDispatch()
+  const {id} = useParams()
+  const rev = useAppSelector(selectReview)
+
+  useEffect(() => {
+    dispatch(GetRivewAsync(Number(id)))
+  }, [])
+  
+
 
   return (
     <div>
-{comment}
+    <th colSpan={2}>Review</th>
+{rev.map((item, index) => <div key={index}>
 <Table striped bordered hover>
       <thead>
         <tr>
-          <th colSpan={2}>Review</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Order ID</td>
-          <td>fff</td>
-        </tr>
-        <tr>
           <td>Name</td>
-          <td>
-            <ul>
-              
-            </ul>
-          </td>
+          <td>{item.name}</td>
         </tr>
         <tr>
           <td>review</td>
-          <td>$$$$</td>
+          <td>
+            <ul>
+            {item.text_comment}
+            </ul>
+          </td>
         </tr>
-
       </tbody>
     </Table>
-    <div>
-    <Stack spacing={1}>
+
+</div>)}
+<Stack spacing={1}>
   <Rating 
+  value={rating}
     name="half-rating" 
     defaultValue={2.5} 
     precision={0.5} 
-    onChange={(e) => setStar(Number((e.target as HTMLInputElement).value))} 
+    onChange={(e) => setRating(+((e.target as HTMLInputElement).value))}
   
   />
 </Stack>
-Comment:  <input onChange={(e)=>setComment(e.target.value)}/> <Button>Send</Button>
+Comment:  <input onChange={(e)=>setDescription(e.target.value)} value={description}/>
+  {logged && <Button onClick={()=> dispatch(SendReviewAsync({rating, description, id}))}>send</Button>}
     </div>
-    
-    </div>
+  
   )
 }
 

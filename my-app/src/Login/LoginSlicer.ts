@@ -49,7 +49,6 @@ export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-   
     CurrectLogged: (state) => {if(localStorage.getItem("token")){ state.logged = true}},
     IsAdmin: (state) => {if(localStorage.getItem("admin") === 'true'){ state.is_superuser = true}},
     CorrectToken: (state) => {if(localStorage.getItem("token")){ state.token = JSON.parse(String(localStorage.getItem("token")))}}

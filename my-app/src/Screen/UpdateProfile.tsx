@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { Form, FormControl, Button, Card, ListGroup } from "react-bootstrap";
+import { useAppDispatch } from "../app/hooks";
+import { UpdateDataUserProfileAsync } from '../User/UserSlice'
 
 const UpdateProfile = () => {
   const [username, setUsername] = useState("user123");
   const [email, setEmail] = useState("user123@example.com");
-  const [firstName, setFirstName] = useState("John");
-  const [lastName, setLastName] = useState("Doe");
+  const [firstName, setFirstName] = useState("Moshe");
+  const [city, setLastName] = useState("Tel aviv");
   const [phone, setPhone] = useState("555-555-5555");
-  const [address, setAddress] = useState("123 Main St");
-
+  const [address, setAddress] = useState("Bazel 77");
+  const [image, setImage] = useState("");
+  const dispatch = useAppDispatch()
 
 
   return (
@@ -20,7 +23,7 @@ const UpdateProfile = () => {
         <ListGroup variant="flush">
           <ListGroup.Item>
             <Form>
-              <Form.Group controlId="username">
+              <Form.Group>
                 <Form.Label>Username</Form.Label>
                 <FormControl
                   type="text"
@@ -44,14 +47,6 @@ const UpdateProfile = () => {
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group controlId="lastName">
-                <Form.Label>Last Name</Form.Label>
-                <FormControl
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </Form.Group>
               <Form.Group controlId="phone">
                 <Form.Label>Phone</Form.Label>
                 <FormControl
@@ -67,8 +62,18 @@ const UpdateProfile = () => {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
+                <Form.Label>City</Form.Label>
+                <FormControl
+                  type="text"
+                  value={city}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
               </Form.Group>
-              <Button variant="primary">
+              <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Image</Form.Label>
+            <Form.Control type="file"  value={image} onChange={(e) => setImage(e.target.value)}/>
+              </Form.Group>
+              <Button variant="primary" onClick={()=> dispatch(UpdateDataUserProfileAsync({city}))}>
                 Update
               </Button>
             </Form>

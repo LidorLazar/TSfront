@@ -38,7 +38,6 @@ export const GetOneProductAsync = createAsyncThunk(
 );
 
 
-
 export const GetAllProductInCategoryOneAsync = createAsyncThunk(
   'product/GetAllProductInCategoryOne',
   async (id:number) => {
@@ -66,13 +65,7 @@ export const ProductSlice = createSlice({
     state.one_product = state.products.filter(prod => prod.id  === action.payload)
 }).addCase(GetAllProductInCategoryOneAsync.fulfilled, (state, action) => {
   state.products = action.payload
-  
 
-  
-
-
-  
-  
 },)
 }});
 

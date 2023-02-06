@@ -5,13 +5,16 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { Link } from "react-router-dom";
 import { toast, Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import { SelectImage } from '../User/UserSlice'
 
 
 const User = () => {
     const [username, setUserName] = useState('')
     const [getToken, setGetToken] = useState('')
     const [admin, setAdmin] = useState(false)
-
+    const AvatarImage = useAppSelector(SelectImage)
 
     const dispatch = useAppDispatch()
 
@@ -23,6 +26,7 @@ const User = () => {
           setUserName(JSON.parse(String(userInlocalStorge)))
           const isAdmin = localStorage.getItem("admin")
           setAdmin(JSON.parse(String(isAdmin)))
+
         }
       }, [])
 
@@ -30,6 +34,8 @@ const User = () => {
   return (
     <div>
       <ToastContainer transition={Slide}/>
+      <Stack direction="row" spacing={2}>
+      <Avatar alt={username} src={`http://127.0.0.1:8000${AvatarImage}`} />
       <NavDropdown title={username} id="collasible-nav-dropdown" >
         <NavDropdown.Item as={Link} to="/profile/">Profile</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/orders/">Orders</NavDropdown.Item>
@@ -38,6 +44,8 @@ const User = () => {
           position: toast.POSITION.TOP_CENTER,
         });; }}>LogOut</NavDropdown.Item>
       </NavDropdown>
+      </Stack>
+
 
     </div>
   );

@@ -6,21 +6,27 @@ import { useAppSelector, useAppDispatch } from "../app/hooks";
 import Rating from "../Product/Rating";
 import { addToCard, selectCart } from '../Cart/CartSlice'
 import Reviews from "./Reviews";
-
+import { selectMumReview, selectRating } from '../reviews/ReviewSlice'
 
 
 
 const OneProduct = () => {
-  useEffect(() => {dispatch(GetOneProductAsync(Number(id)));}, []);
+
   const SERVER = "http://127.0.0.1:8000"
   const [CorrectImage, setCorrectImage] = useState("");
   const [qty, setQty] = useState(1);
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const OneProd = useAppSelector(selectOneProduct)
+  const review = useAppSelector(selectMumReview)
+  useEffect(() => {
+    dispatch(GetOneProductAsync(Number(id)))
 
+  }, [])
+  
 
   useEffect(() => {
+    
     if(OneProd[0]) {
       setCorrectImage(OneProd[0].image)}
   }, [OneProd]);
@@ -44,7 +50,7 @@ const OneProduct = () => {
                 <ListGroup.Item>
                   <Rating />
                   <br />
-                  {prod.num_reviews} <strong>Reviews</strong>
+                  {review} <strong>Reviews</strong>
                 </ListGroup.Item>
               </ListGroup>
               <ListGroup>

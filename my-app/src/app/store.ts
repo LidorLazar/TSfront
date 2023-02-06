@@ -3,6 +3,7 @@ import CartSlice from '../Cart/CartSlice';
 import ProductSlice from '../Product/ProductSlice';
 import LoginSlicer from '../Login/LoginSlicer';
 import UserSlice from '../User/UserSlice';
+import ReviewSlice from '../reviews/ReviewSlice';
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     cart: CartSlice,
     login: LoginSlicer,
     user: UserSlice,
+    review: ReviewSlice,
 
   },
 });

@@ -45,15 +45,17 @@ const Cart = () => {
                 Price per qty: {product.price}
               </Card.Text>
               <Button onClick={()=> dispatch(addOneQty(product.id))}
-                className='btn btn-outline-success'
+                className='badge rounded-pill bg-success'
               >
                 +
               </Button>
               <Button onClick={()=> dispatch(removeOneOty(product.id))}
-                className='btn btn-outline-success'
+                className="badge rounded-pill bg-danger"
               >
                -
               </Button>
+              <br/>
+              <br/>
               <Button onClick={()=> dispatch(deletFromCart(product.id))}
                 variant="danger"
               >
