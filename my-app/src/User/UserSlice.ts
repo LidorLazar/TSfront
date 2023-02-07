@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
+import Order from '../model/order';
 import User from '../model/user';
-import { GetUserPofile, UpdateDataUserProfile } from './UserAPI'
-
+import { GetUserPofile, UpdateDataUserProfile, GetUserOrder } from './UserAPI'
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
 
 export interface UsertState {
-  status: 'idle' | 'loading' | 'failed';
+  status:number
   name:string
   email:string
   is_superuser:boolean
@@ -14,12 +16,13 @@ export interface UsertState {
   address:string
   city: string
   phoneNumber:string
-
+  orderData: Order[]
   data: User[]
+
 
 }
 const initialState: UsertState = {
-  status: 'idle',
+  status:200,
   name: '',
   email: '',
   is_superuser: false,
@@ -29,7 +32,7 @@ const initialState: UsertState = {
   address: '',
   city: '',
   phoneNumber: '',
-
+  orderData: []
 };
 
 export const GetUserPofileAsync = createAsyncThunk(
@@ -45,10 +48,20 @@ export const UpdateDataUserProfileAsync = createAsyncThunk(
   'user/UpdateDataUserProfile',
   async (data:any) => {
     const response = await UpdateDataUserProfile(data);
+    return response
+  }
+);
+
+
+export const GetUserOrderAsync = createAsyncThunk(
+  'user/GetUserOrder',
+  async () => {
+    const response = await GetUserOrder();
     // The value we return becomes the `fulfilled` action payload
     return response
   }
 );
+
 
 
 export const UserSlice = createSlice({
@@ -72,11 +85,27 @@ export const UserSlice = createSlice({
     state.city = action.payload.data.city
     state.phoneNumber = action.payload.data.phone_number
   }).addCase(UpdateDataUserProfileAsync.fulfilled, (state, action) => {
-    console.log(action.payload)
+    const success = state.status === action.payload.status
+    if(success){
+      toast.success(`Info update success ${""}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      setTimeout(function () {
+        window.location.replace("profile/")
+      },2000)
+    }else{
+      toast.error(`You need put all ${""}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }).addCase(GetUserOrderAsync.fulfilled, (state, action) => {
+    state.orderData = action.payload.data
   })
 }});
 
 export const {  } = UserSlice.actions;
 export const SelectDataProfile = (state:RootState)=> state.user.data
 export const SelectImage = (state:RootState)=> state.user.image
+export const SelectOrderData = (state:RootState)=> state.user.orderData
+
 export default UserSlice.reducer;

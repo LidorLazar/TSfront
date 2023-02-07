@@ -34,7 +34,8 @@ const Cart = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                 {cartProd.map((product, index) => {
-        total += product.price * product.qty;
+        total += Math.round((product.price * product.qty + Number.EPSILON) * 100) / 100
+
         return (
           <Card key={index}>
             <Card.Img className="d-block mx-auto" variant="top" src={SERVER+product.image} style={{width:'100px', height:'100px', textAlign:'center'}}/>

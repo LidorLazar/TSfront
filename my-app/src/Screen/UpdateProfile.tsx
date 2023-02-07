@@ -1,20 +1,42 @@
 import React, { useState } from "react";
-import { Form, FormControl, Button, Card, ListGroup } from "react-bootstrap";
-import { useAppDispatch } from "../app/hooks";
+import { Form, FormControl, Button, Card, ListGroup, ToastContainer } from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { UpdateDataUserProfileAsync } from '../User/UserSlice'
 
 const UpdateProfile = () => {
-  const [username, setUsername] = useState("user123");
-  const [email, setEmail] = useState("user123@example.com");
-  const [firstName, setFirstName] = useState("Moshe");
-  const [city, setLastName] = useState("Tel aviv");
-  const [phone, setPhone] = useState("555-555-5555");
-  const [address, setAddress] = useState("Bazel 77");
-  const [image, setImage] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [city, setCity] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [image, setImage] = useState<any>();
   const dispatch = useAppDispatch()
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImage(e.target.files ? e.target.files[0] : undefined);
+
+};
+
+const handelSubmit= (e:any) =>{
+    e.preventDefault()
+    const formData = new FormData()
+    if(image){
+      formData.append('image', image)
+    }
+    formData.append('phone', phone)
+    formData.append('address', address)
+    formData.append('city', city)
+    formData.append('email', email)
+    formData.append('username', username)
+
+    dispatch(UpdateDataUserProfileAsync(formData))}
+
 
 
   return (
+    <div>
+    <ToastContainer/>
     <Card>
       <Card.Header>
         <h4>User Profile</h4>
@@ -22,7 +44,7 @@ const UpdateProfile = () => {
       <Card.Body>
         <ListGroup variant="flush">
           <ListGroup.Item>
-            <Form>
+            <Form onSubmit={handelSubmit}>
               <Form.Group>
                 <Form.Label>Username</Form.Label>
                 <FormControl
@@ -62,25 +84,29 @@ const UpdateProfile = () => {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
+
+                </Form.Group>
+              <Form.Group controlId="city">
                 <Form.Label>City</Form.Label>
                 <FormControl
                   type="text"
                   value={city}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => setCity(e.target.value)}
                 />
+
+    
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Image</Form.Label>
-            <Form.Control type="file"  value={image} onChange={(e) => setImage(e.target.value)}/>
+            <Form.Control type="file"  onChange={handleImageChange} />
               </Form.Group>
-              <Button variant="primary" onClick={()=> dispatch(UpdateDataUserProfileAsync({city}))}>
-                Update
-              </Button>
+              <Button variant="primary" type="submit">Update</Button>
             </Form>
           </ListGroup.Item>
         </ListGroup>
       </Card.Body>
     </Card>
+    </div>
   );
 };
 

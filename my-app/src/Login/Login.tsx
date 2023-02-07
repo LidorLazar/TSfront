@@ -30,10 +30,10 @@ const Login = () => {
       <h1>Login</h1>
       <Form >
       <Form.Group>
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>usename</Form.Label>
                     <Form.Control
                         type='user'
-                        placeholder='Enter email'
+                        placeholder='Enter username'
                         value={user}
                         onChange={(e) => setUser(e.target.value)} 
                     >

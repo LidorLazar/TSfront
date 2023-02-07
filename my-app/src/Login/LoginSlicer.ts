@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
 import  {loginUser, RegisterUser, logOutUser}  from "./LogAPI";
 import jwt_decode from "jwt-decode";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export interface LoginState {
@@ -17,7 +19,7 @@ const initialState: LoginState = {
   logged: false,
   token: '',
   username: '',
-  status: 0,
+  status: 200,
   is_superuser: false
 
 };
@@ -78,8 +80,19 @@ export const loginSlice = createSlice({
 
 
       }).addCase(registerAsync.fulfilled, (state, action) => {
-          state.status = action.payload.status
-    
+          const success = state.status === action.payload.status
+          if(success){
+            toast.success(`Registar success ${""}`, {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            setTimeout(function () {
+              window.location.replace("/")
+            },2000)
+          }else{
+            toast.warning(`something wrong ${""}`, {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
       }).addCase(logOutAsync.fulfilled, (state, action) => {
         localStorage.clear()
         setTimeout(function() {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import {registerAsync, selecStatus} from "../Login/LoginSlicer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -16,13 +16,14 @@ const RegisterPage =()=> {
     const [city, setCity] = useState("")
     const [address, setAddress] = useState("")
     const isValid = password === passwordconfirm;
-    const status = useAppSelector(selecStatus) === 200
+
 
 
   return (
-
+    <div>
+  <ToastContainer/>
     <Container className="my-5">
-       <ToastContainer/>
+      
       <Row className="justify-content-center">
         <Col md={6}>
           <h2 className="text-center mb-4">Register</h2>
@@ -67,6 +68,7 @@ const RegisterPage =()=> {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 }
 
