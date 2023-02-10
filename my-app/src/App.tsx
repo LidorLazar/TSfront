@@ -4,14 +4,18 @@ import { Link } from "react-router-dom";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import { selectProduct, GetAllProducttAsync } from "./Product/ProductSlice";
 import { addToCard } from './Cart/CartSlice'
-import { CurrectLogged, selectLogged } from './Login/LoginSlicer'
+import { selectLogged } from './Login/LoginSlicer'
+import { selectMumReview, selectRating } from './reviews/ReviewSlice'
 import Carusel from "./Screen/Carusla";
+
 
 
 
 const App = () => {
   const product = useAppSelector(selectProduct);
   const logged = useAppSelector(selectLogged);
+  const MumReview = useAppSelector(selectMumReview);
+  const rating = useAppSelector(selectRating);
   const dispatch = useAppDispatch();
   useEffect(() => { 
     dispatch(GetAllProducttAsync())
@@ -24,6 +28,7 @@ const App = () => {
   return (
 
     <div>
+      
       {/* <Carusel/> */}
       <h1>Top 10 sale</h1>
       <Row style={{margin:'20px'}}>

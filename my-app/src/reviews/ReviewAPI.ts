@@ -11,7 +11,6 @@ export function SendReview(detalis:any) {
           'Authorization': 'Bearer ' + tokenAccess
         }
       }
-      console.log(detalis.rating)
     return new Promise<{ data: any}>((resolve) => 
     axios.post("http://127.0.0.1:8000/api/products/sreview/", {description: detalis.description, rating: detalis.rating, user: config.headers, id: detalis.id}, config).then(res => resolve({ data: res.data })))
   }

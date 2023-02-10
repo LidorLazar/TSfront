@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Col, Image, ListGroup, Button, Card, Row, Form } from "react-bootstrap";
-import { GetOneProductAsync, selectOneProduct } from "../Product/ProductSlice";
+import { GetOneProductAsync, selectOneProduct, GetAllProducttAsync } from "../Product/ProductSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import Rating from "../Product/Rating";
 import { addToCard, selectCart } from '../Cart/CartSlice'
@@ -18,10 +18,11 @@ const OneProduct = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const OneProd = useAppSelector(selectOneProduct)
+  
   const review = useAppSelector(selectMumReview)
   useEffect(() => {
+    dispatch(GetAllProducttAsync())
     dispatch(GetOneProductAsync(Number(id)))
-
   }, [])
   
 

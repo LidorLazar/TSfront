@@ -47,18 +47,17 @@ const Header = () => {
               <Nav.Link as={Link} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link href="#pricing">About Us</Nav.Link>
+              <Nav.Link as={Link} to="about">About Us</Nav.Link>
               <NavDropdown title="Category" id="collasible-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/category/1">
+                <NavDropdown.Item as={Link} to="category/1">
                   Soocer shoes
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/category/2">
+                <NavDropdown.Item as={Link} to="category/2" >
                   Ball
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>
-              {/* <Nav.Link href="/cart"> <Cart/></Nav.Link> */}
               {getToken ? (
                 <User />
               ) : (

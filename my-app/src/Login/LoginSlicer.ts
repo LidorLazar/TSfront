@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
 import  {loginUser, RegisterUser, logOutUser}  from "./LogAPI";
 import jwt_decode from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 export interface LoginState {
@@ -12,6 +12,7 @@ export interface LoginState {
   username: string,
   status: Number
   is_superuser: boolean
+  massage:boolean
 
 }
 
@@ -20,8 +21,8 @@ const initialState: LoginState = {
   token: '',
   username: '',
   status: 200,
-  is_superuser: false
-
+  is_superuser: false,
+  massage: false
 };
 
 export const loginAsync = createAsyncThunk(
@@ -35,7 +36,9 @@ export const registerAsync = createAsyncThunk(
  "login/RegisterUser",
   async (detalis: any) => {
   const response = await RegisterUser(detalis);
-  return response;
+  return response
+
+  
 });
 
 
@@ -77,9 +80,7 @@ export const loginSlice = createSlice({
         localStorage.setItem('username', JSON.stringify(state.username))
         localStorage.setItem('admin', JSON.stringify(state.is_superuser))
         state.logged = true;
-
-
-      }).addCase(registerAsync.fulfilled, (state, action) => {
+    }).addCase(registerAsync.fulfilled, (state, action) => {
           const success = state.status === action.payload.status
           if(success){
             toast.success(`Registar success ${""}`, {
@@ -88,10 +89,6 @@ export const loginSlice = createSlice({
             setTimeout(function () {
               window.location.replace("/")
             },2000)
-          }else{
-            toast.warning(`something wrong ${""}`, {
-              position: toast.POSITION.TOP_CENTER,
-            });
           }
       }).addCase(logOutAsync.fulfilled, (state, action) => {
         localStorage.clear()
@@ -99,6 +96,11 @@ export const loginSlice = createSlice({
           window.location.replace("/");
         }, 1000);
         state.logged = false;
+      }).addCase(loginAsync.rejected, (state, action) => {
+         if(!action.meta.rejectedWithValue){
+          state.massage = true
+         }
+          
       })
   },
 });
@@ -109,4 +111,5 @@ export const selectToken = (state: RootState) => state.login.token;
 export const selectUser = (state: RootState) => state.login.username;
 export const selectAdmin = (state: RootState) => state.login.is_superuser;
 export const selecStatus = (state: RootState) => state.login.status;
+export const selecTest = (state: RootState) => state.login.massage;
 export default loginSlice.reducer;

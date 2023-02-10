@@ -26,7 +26,7 @@ export const SendReviewAsync = createAsyncThunk(
   'review/SendReview',
   async (detalis:any) => {
     const response = await SendReview(detalis);
-    // The value we return becomes the `fulfilled` action payload
+    console.log(response)
     return response;
   }
 );

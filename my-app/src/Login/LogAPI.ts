@@ -1,10 +1,16 @@
 import axios from 'axios'
 
-export function loginUser(detalis:any) {;
-  return new Promise<{ data: any, status: number }>((resolve) =>
-  axios.post("http://127.0.0.1:8000/api/users/login/", { username: detalis.user , password: detalis.password }).then((res) => resolve({ data: res.data, status: res.status })))
 
+
+export function loginUser(details: any) {
+  return new Promise<{ data: any, status: number }>((resolve, reject) => {
+    axios.post("http://127.0.0.1:8000/api/users/login/", { username: details.user, password: details.password })
+      .then((res) => resolve({ data: res.data, status: res.status }))
+      .catch((error) => reject(error));
+      
+  });
 }
+
 
 
   export function RegisterUser(detalis:any) {;

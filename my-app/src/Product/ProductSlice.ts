@@ -62,8 +62,8 @@ export const ProductSlice = createSlice({
       state.products = action.payload
 
   }).addCase(GetOneProductAsync.fulfilled, (state, action) => {
-    state.one_product = state.products.filter(prod => prod.id  === action.payload)
-}).addCase(GetAllProductInCategoryOneAsync.fulfilled, (state, action) => {
+    state.one_product = state.products.filter(prod => prod.id  === action.payload)  
+  }).addCase(GetAllProductInCategoryOneAsync.fulfilled, (state, action) => {
   state.products = action.payload
 
 },)

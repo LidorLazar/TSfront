@@ -17,9 +17,11 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     CorrectCart: (state) => {if(localStorage.getItem("cart")){ state.cart = JSON.parse(String(localStorage.getItem("cart")))}
+  },
+  SaveAddressShipping: (state) =>{
 
   },
-    addToCard: (state, action) => {
+addToCard: (state, action) => {
       let CorrectCart = false;
       for (let index = 0; index < state.cart.length; index++) {
         if (state.cart[index].id === action.payload.id) {

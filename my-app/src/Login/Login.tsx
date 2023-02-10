@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { selectLogged, loginAsync} from "./LoginSlicer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { Form, Button } from 'react-bootstrap'
+import { selecTest } from './LoginSlicer'
 
 
 
@@ -11,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   let logged = useAppSelector(selectLogged);
+  let x = useAppSelector(selecTest);
 
   useEffect(() => {
     if (logged) {
@@ -26,7 +28,7 @@ const Login = () => {
   return (
     <div>
 
-  
+  <ToastContainer/>
       <h1>Login</h1>
       <Form >
       <Form.Group>
@@ -46,6 +48,7 @@ const Login = () => {
                     <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} />
                        </Form.Group>
       <br/>
+      {x && <h3 style={{color:'red'}}>Password or Username is wrong</h3>}
       <h5>For registar <a href="/registar">click here</a></h5>
       <br/>
       <Button className="btn btn-outline-success" style={{margin: '20px'}} onClick={() => dispatch(loginAsync({user, password})) } >Login</Button>

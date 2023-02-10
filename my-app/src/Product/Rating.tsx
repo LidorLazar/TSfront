@@ -12,6 +12,7 @@ const Rating = ( ) => {
 
     // This component check the rating product and reurnd star accordingly
   return (
+    
     <div>
     {OneProd.map((item, index) => <div key={index} className='rating'>
         {/* Check if rating bigger 1 so i get a star or helf star  */}

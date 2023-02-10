@@ -5,27 +5,33 @@ import { GetAllProductInCategoryOneAsync, selectProductCategory } from "../Produ
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import Rating from "../Product/Rating";
 import { addToCard, selectCart } from '../Cart/CartSlice'
+import { selectMumReview, selectRating } from '../reviews/ReviewSlice'
+
 
 
 
 const OneProduct = () => {
-  useEffect(() => {dispatch(GetAllProductInCategoryOneAsync(Number(id)));}, []);
+  useEffect(() => {dispatch(GetAllProductInCategoryOneAsync(Number(id)))}, []);
   const SERVER = "http://127.0.0.1:8000"
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const product = useAppSelector(selectProductCategory)
+  const MumReview = useAppSelector(selectMumReview);
+  const rating = useAppSelector(selectRating);
+  const [CorrectImage, setCorrectImage] = useState("");
+  const [qty, setQty] = useState(1);
   useEffect(() => {
     if(product[0]) {
       setCorrectImage(product[0].image)}
   }, [product]);
-  const [CorrectImage, setCorrectImage] = useState("");
-  const [qty, setQty] = useState(1);
 
+
+
+  console.log(rating)
 
   return (
     <div>
       <Link to="/" className="badge rounded-pill bg-dark">Go back</Link>
-
       <Row style={{margin:'20px'}}>
         {product.map((product) => (
           <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
@@ -41,35 +47,37 @@ const OneProduct = () => {
                     </Card.Title>
                   </Link>
                   <Card.Text as="div">
+              
                     <div className="my-3">
                       {/* Check if rating bigger 1 so i get a star or helf star  */}
                       <samp>
-                        <i className={product.rating >= 1 ? 'fas fa-star' : product.rating >= 0.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
+                        <i className={rating >= 1 ? 'fas fa-star' : rating >= 0.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
                       </samp>
                       {/* Check if rating bigger 2 so i get a star or helf star  */}
                       <samp>
-                        <i className={product.rating >= 2 ? 'fas fa-star' : product.rating >= 1.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
+                        <i className={rating >= 2 ? 'fas fa-star' : rating >= 1.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
                       </samp>
                       {/* Check if rating bigger 3 so i get a star or helf star  */}
                       <samp>
-                        <i className={product.rating >= 3 ? 'fas fa-star' : product.rating >= 2.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
+                        <i className={rating >= 3 ? 'fas fa-star' : rating >= 2.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
                       </samp>
                       {/* Check if rating bigger 4 so i get a star or helf star  */}
                       <samp>
-                        <i className={product.rating >= 4 ? 'fas fa-star' : product.rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
+                        <i className={rating >= 4 ? 'fas fa-star' : rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
                       </samp>
                       {/* Check if rating bigger 5 so i get a star or helf star  */}
                       <samp>
-                        <i className={product.rating >= 5 ? 'fas fa-star' : product.rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
+                        <i className={rating >= 5 ? 'fas fa-star' : rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
                       </samp>
                       <br/>
                       <span>
-                      {product.num_reviews} Reviews
+                      {MumReview} Reviews
                       </span>
                     </div>
                   </Card.Text>
                   <Card.Text as="h3">${[product.price]}</Card.Text>
-                  <Button className="btn btn-outline-success" >Buy</Button>
+                  <Button className="btn btn-outline-success"  onClick={() => {dispatch(addToCard({"id": product.id, "qty": qty, "price": qty * product.price, "image":product.image, "product_name":product.product_name}))}}
+>Buy</Button>
                 </Card.Body>
               </Card>
             </div>

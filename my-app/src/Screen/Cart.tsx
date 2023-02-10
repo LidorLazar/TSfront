@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import { Offcanvas, Card, Button } from "react-bootstrap";
 import {selectCart, deletFromCart, addOneQty, removeOneOty} from '../Cart/CartSlice'
 import { useAppSelector, useAppDispatch } from "../app/hooks";
+import PaypalButton from "../compomemts/PaypalButton";
+import OffCanvasExample from "../compomemts/ProceedToCheckout";
 
 
 const Cart = () => {
@@ -26,11 +28,10 @@ const Cart = () => {
 
   return (
     <div>  
-    <i className="fas  fa-shopping-cart" onClick={handleShow}></i>
-    cart
+    <i className="fas  fa-shopping-cart" onClick={handleShow}>cart</i>
     <Offcanvas show={show} onHide={handleClose} placement={'end'}>
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title><i className="fas  fa-shopping-cart"></i>cart</Offcanvas.Title>
+                    <Offcanvas.Title><i className="fas  fa-shopping-cart"/>cart</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                 {cartProd.map((product, index) => {
@@ -67,7 +68,18 @@ const Cart = () => {
         );
       })}
       <h3>Total: {total}$</h3>
-                </Offcanvas.Body>
+              </Offcanvas.Body>
+              <OffCanvasExample/>
+
+                <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+              />
+              <div className="animate__animated animate__bounce animate__delay-2s">
+
+              <i  className="d-flex justify-content-center fa-sharp fa-solid fa-arrow-down" style={{margin:'20px'}}></i>
+              </div>
+              <PaypalButton/>
             </Offcanvas>
         </div>
 

@@ -19,6 +19,7 @@ const Reviews = () => {
 
   useEffect(() => {
     dispatch(GetRivewAsync(Number(id)))
+
   }, [])
   
 

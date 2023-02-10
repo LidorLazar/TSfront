@@ -18,6 +18,7 @@ import Orders from "./Screen/Orders";
 import UserProfile from "./Screen/UserProfile";
 import UpdateProfile from "./Screen/UpdateProfile";
 import Page404 from "./Screen/Page404";
+import AbousUs from "./Screen/AbousUs";
 
 
 const container = document.getElementById("root")!;
@@ -41,7 +42,7 @@ root.render(
             <Route path="orders/" element={<Orders />} />
             <Route path="profile/" element={<UserProfile />} />
             <Route path="profile/update" element={<UpdateProfile />} />
-            <Route path="*" element={<Page404/>} />
+            <Route path="about/" element={<AbousUs/>} />
           </Routes>
         </Container>
       </main>

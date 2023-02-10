@@ -22,8 +22,8 @@ export function GetOneProduct(id:number) {
 
 
 export function GetAllProductInCategoryOne(id:number) {
-  return new Promise<{ data: Product[] }>((resolve) =>
+  return new Promise<{ data: any}>((resolve) =>
   axios.get("http://127.0.0.1:8000/api/category/"+id).then(res => resolve({data: res.data}))
-  
+
   );
 }

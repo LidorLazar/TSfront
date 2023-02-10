@@ -25,8 +25,8 @@ export function UpdateDataUserProfile(data: any) {
           'content-type': 'multipart/form-data'
         }
       }
-    return new Promise<{data:any, status: number}>((resolve) => 
-    axios.put("http://127.0.0.1:8000/api/users/profile/update/",data, config).then(res => resolve({ data: res.data, status: res.status}))
+    return new Promise<{data:any, status: number}>((resolve, reject) => 
+    axios.put("http://127.0.0.1:8000/api/users/profile/update/",data, config).then(res => resolve({ data: res.data, status: res.status})).catch((error) => reject(error))
     )
   }
 
