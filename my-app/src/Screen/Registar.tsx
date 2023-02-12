@@ -30,7 +30,7 @@ const RegisterPage =()=> {
           <Form>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={email} required onChange={(e) => setEmail(e.target.value)}/>
+              <Form.Control type="email" placeholder="Enter email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">

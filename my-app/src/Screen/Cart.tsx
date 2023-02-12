@@ -6,6 +6,7 @@ import PaypalButton from "../compomemts/PaypalButton";
 import OffCanvasExample from "../compomemts/ProceedToCheckout";
 
 
+
 const Cart = () => {
     const cart = useAppSelector(selectCart);
     const dispatch = useAppDispatch()

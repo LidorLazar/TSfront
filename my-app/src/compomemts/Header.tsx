@@ -49,12 +49,8 @@ const Header = () => {
               </Nav.Link>
               <Nav.Link as={Link} to="about">About Us</Nav.Link>
               <NavDropdown title="Category" id="collasible-nav-dropdown">
-                <NavDropdown.Item as={Link} to="category/1">
-                  Soocer shoes
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="category/2" >
-                  Ball
-                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="category/1">Soocer shoes</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="category/2" >Ball</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>

@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
 import {Button,Form, ListGroup} from 'react-bootstrap';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import {newOrderAsync} from '../Order/orderSlice'
+import {selectCart} from '../Cart/CartSlice'
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 function OffCanvasExample() {
   const [show, setShow] = useState(false);
-  const [address, setAddress] = useState()
-  const [city, setCity] = useState()
-  const [postalCode, setPostalCode] = useState()
-  const [country, setCountry] = useState()
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [country, setCountry] = useState('')
+  const cart = useSelector(selectCart)
+  const dispatch = useDispatch()
 
 
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted');
-  }
+  const formData = new FormData()
+  formData.append('address', address)
+  formData.append('city', city)
+  formData.append('postalCode', postalCode)
+  formData.append('country', country)
+
+   
   return (
     <div>
       <Button variant="primary" onClick={toggleShow} type="button" className="btn btn-lg btn-primary  me-2 Enable both scrolling & backdrop">
@@ -29,7 +37,7 @@ function OffCanvasExample() {
           <Offcanvas.Title>Shipping</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-  <Form onSubmit={handelSubmit}>
+  <Form>
     <Form.Group controlId="address">
       <ListGroup.Item>
         <Form.Label>Address</Form.Label>

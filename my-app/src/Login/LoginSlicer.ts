@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
-import  {loginUser, RegisterUser, logOutUser}  from "./LogAPI";
+import  {loginUser, logOutUser}  from "./LogAPI";
 import jwt_decode from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
+
+
+import axios from 'axios'
 
 
 export interface LoginState {
@@ -12,7 +15,8 @@ export interface LoginState {
   username: string,
   status: Number
   is_superuser: boolean
-  massage:boolean
+  massage:string
+
 
 }
 
@@ -22,7 +26,7 @@ const initialState: LoginState = {
   username: '',
   status: 200,
   is_superuser: false,
-  massage: false
+  massage: ''
 };
 
 export const loginAsync = createAsyncThunk(
@@ -32,14 +36,18 @@ export const loginAsync = createAsyncThunk(
     return response;
   }
 );
-export const registerAsync = createAsyncThunk(
- "login/RegisterUser",
-  async (detalis: any) => {
-  const response = await RegisterUser(detalis);
-  return response
 
-  
-});
+export const registerAsync = createAsyncThunk(
+  "login/RegisterUser",
+  async (detalis: any, thunkApi) => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/users/register/", { email: detalis.email , password: detalis.password, name: detalis.username, address: detalis.address, city: detalis.city  });
+      return response.data;
+    } catch (error:any) {
+      return thunkApi.rejectWithValue(error.response.data.error);
+    }
+  }
+);
 
 
 
@@ -49,6 +57,7 @@ export const logOutAsync = createAsyncThunk(
    const response = await logOutUser();
    return response;
  });
+
 
 
 export const loginSlice = createSlice({
@@ -81,26 +90,26 @@ export const loginSlice = createSlice({
         localStorage.setItem('admin', JSON.stringify(state.is_superuser))
         state.logged = true;
     }).addCase(registerAsync.fulfilled, (state, action) => {
-          const success = state.status === action.payload.status
-          if(success){
+
             toast.success(`Registar success ${""}`, {
               position: toast.POSITION.TOP_CENTER,
             });
             setTimeout(function () {
               window.location.replace("/")
             },2000)
-          }
-      }).addCase(logOutAsync.fulfilled, (state, action) => {
+
+      }).addCase(registerAsync.rejected, (state, action) => {
+        toast.error(` ${action.payload}`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+    
+      })
+      .addCase(logOutAsync.fulfilled, (state, action) => {
         localStorage.clear()
         setTimeout(function() {
           window.location.replace("/");
         }, 1000);
         state.logged = false;
-      }).addCase(loginAsync.rejected, (state, action) => {
-         if(!action.meta.rejectedWithValue){
-          state.massage = true
-         }
-          
       })
   },
 });
