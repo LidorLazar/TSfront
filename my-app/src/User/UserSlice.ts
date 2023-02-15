@@ -108,5 +108,7 @@ export const {  } = UserSlice.actions;
 export const SelectDataProfile = (state:RootState)=> state.user.data
 export const SelectImage = (state:RootState)=> state.user.image
 export const SelectOrderData = (state:RootState)=> state.user.orderData
+export const SelectAddress = (state:RootState)=> state.user.address
+export const SelectCity = (state:RootState)=> state.user.city
 
 export default UserSlice.reducer;

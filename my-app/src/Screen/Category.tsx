@@ -25,7 +25,7 @@ const OneProduct = () => {
     {dispatch(GetAllProductInCategoryOneAsync(Number(id)))}
     if(product[0]) {
       setCorrectImage(product[0].image)}
-  }, [product, id]);
+  }, [id]);
 
 
 

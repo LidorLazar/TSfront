@@ -1,34 +1,67 @@
-import React, {useEffect } from "react";
+import React, { useEffect } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
-import {selectCart} from "../Cart/CartSlice";
+import { selectCart } from "../Cart/CartSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { createNewOrderAsync } from '../Order/OrderSlicer'
+import {SelectAddress, SelectCity} from '../User/UserSlice'
+import {SelectNewAddress, SelectNewCity, SelectPostalCaode, SelectCountry} from '../Order/OrderSlicer'
 
 
 const PaypalButton = () => {
-  const cart = useAppSelector(selectCart)
-  let totalPrice = 0
-  const dispatch = useAppDispatch()
+  const cart = useAppSelector(selectCart);
+  const newAddress = useAppSelector(SelectNewAddress)
+  const newCity = useAppSelector(SelectNewCity)
+  const newZipCode = useAppSelector(SelectPostalCaode)
+  const newCountry = useAppSelector(SelectCountry)
 
-//   const sumbitHandler = (e: any) => {
-//     e.preventDefault()
-//     const orderData = {
-//         address:'test',
-//         city:'test',
-//         zip_code:'yesy',
-//         country:'test'
-//     };
 
-//     dispatch(newOrderAsync({ orderData, orderDetails: cart }))
-//     }
+  let totalPrice = 0;
+  const dispatch = useAppDispatch();
+
+
+  const sumbitHandler = () => {
+    const orderData = {
+      address: newAddress ,
+      city: newCity,
+      zip_code: newZipCode,
+      country: newCountry,
+    };
+    dispatch(createNewOrderAsync({ orderData, orderDetails: cart }));
+  };
 
   useEffect(() => {
     for (let index = 0; index < cart.length; index++) {
-      totalPrice += Math.round(cart[index].price * cart[index].qty+Number.EPSILON) * 100/100
+      totalPrice +=
+        Math.round(cart[index].price * cart[index].qty + Number.EPSILON) *
+        100 /
+        100;
     }
-  }, [cart])
-  
+  }, [cart]);
 
+  const handleApprove = (data:any, actions:any) => {
+    if (actions.order) {
+      
+      sumbitHandler();
+      return actions.order
+        .capture()
+        .then((details:any) => {
+          toast.success(
+            "Payment completed. Thank you " +
+              (details.payer.name?.given_name || ""),
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+        }, localStorage.removeItem('cart'))
+        .catch((error:any) => {
+          toast.error("Error capturing the payment", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        });
+    }
+    return Promise.resolve();
+  };
 
   return (
     <div>
@@ -39,31 +72,20 @@ const PaypalButton = () => {
         }}
       >
         <PayPalButtons
-           style= {{layout: 'vertical'}}
+        disabled={!newAddress || !newCity || !newCountry || !newZipCode}
+          style={{ layout: "vertical" }}
           createOrder={(data, actions) => {
             return actions.order.create({
               purchase_units: [
                 {
-                  amount: { value:  totalPrice.toString()},
+                  amount: { value: totalPrice.toString() },
                 },
               ],
             });
           }}
-          onApprove={(data, actions) => {
-            if (actions.order) {
-              return actions.order.capture().then(details => {
-                toast.success(
-                  'Payment completed. Thank you ' + (details.payer.name?.given_name || ''),{
-                    position: toast.POSITION.TOP_CENTER
-                  }
-                );
-              });
-            }
-            return Promise.resolve();
-          }}
-          
+          onApprove={handleApprove}
           onCancel={() => {
-            toast.error("You canelled the payment", {
+            toast.error("You cancelled the payment", {
               position: toast.POSITION.TOP_CENTER,
             });
           }}
@@ -79,11 +101,10 @@ const PaypalButton = () => {
 };
 
 export default PaypalButton;
-// function newOrderAsync(arg0: { orderData: { address: any; city: any; zip_code: any; country: any; }; orderDetails: import("../model/cart").default[]; }): any {
-//   throw new Error("Function not implemented.");
-// }
 
-// function dispatch(arg0: any) {
-//   throw new Error("Function not implemented.");
-// }
-
+function newOrderAsync(arg0: {
+  orderData: { address: any; city: any; zip_code: any; country: any };
+  orderDetails: import("../model/cart").default[];
+}): any {
+  throw new Error("Function not implemented.");
+}

@@ -12,7 +12,7 @@ export function createNewOrder(orderData: OrderData, orderDetails: Cart[]) {
       }
   }
   return new Promise<{ data: any }>((resolve) =>
-  axios.post('http://127.0.0.1:8000/api/users/checkout/', {'orderData': orderData, 'orderDetails': orderDetails, 'user':config }, config).then(res => resolve({data:res.data}))
+  axios.post('http://127.0.0.1:8000/api/users/checkout/', {'orderData': orderData, 'orderDetails': orderDetails}, config).then(res => resolve({data:res.data}))
   
 )
 
