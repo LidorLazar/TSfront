@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../app/store";
-import  {loginUser, logOutUser}  from "./LogAPI";
+import { RootState } from "../app/store";
+import  {logOutUser, loginUser}  from "./LogAPI";
 import jwt_decode from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ export interface LoginState {
   username: string,
   status: Number
   is_superuser: boolean
-  massage:string
+  FailLogin:boolean
 
 
 }
@@ -26,7 +26,7 @@ const initialState: LoginState = {
   username: '',
   status: 200,
   is_superuser: false,
-  massage: ''
+  FailLogin: false
 };
 
 export const loginAsync = createAsyncThunk(
@@ -36,6 +36,7 @@ export const loginAsync = createAsyncThunk(
     return response;
   }
 );
+
 
 export const registerAsync = createAsyncThunk(
   "login/RegisterUser",
@@ -81,7 +82,6 @@ export const loginSlice = createSlice({
           is_superuser: boolean;
         }  
         const decoded = jwt_decode(action.payload.data.access) as JwtPayload;
-        // console.log(jwt_decode(action.payload.data.access))
         state.token = action.payload.data['access']
         state.username =decoded.username
         state.is_superuser = decoded.is_superuser
@@ -110,6 +110,8 @@ export const loginSlice = createSlice({
           window.location.replace("/");
         }, 1000);
         state.logged = false;
+      }).addCase(loginAsync.rejected, (state, action) => {
+        state.FailLogin = true
       })
   },
 });
@@ -120,5 +122,5 @@ export const selectToken = (state: RootState) => state.login.token;
 export const selectUser = (state: RootState) => state.login.username;
 export const selectAdmin = (state: RootState) => state.login.is_superuser;
 export const selecStatus = (state: RootState) => state.login.status;
-export const selecTest = (state: RootState) => state.login.massage;
+export const selecFailLogin = (state: RootState) => state.login.FailLogin;
 export default loginSlice.reducer;

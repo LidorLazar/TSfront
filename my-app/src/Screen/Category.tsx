@@ -11,7 +11,7 @@ import { selectMumReview, selectRating } from '../reviews/ReviewSlice'
 
 
 const OneProduct = () => {
-  useEffect(() => {dispatch(GetAllProductInCategoryOneAsync(Number(id)))}, []);
+
   const SERVER = "http://127.0.0.1:8000"
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -20,10 +20,12 @@ const OneProduct = () => {
   const rating = useAppSelector(selectRating);
   const [CorrectImage, setCorrectImage] = useState("");
   const [qty, setQty] = useState(1);
+
   useEffect(() => {
+    {dispatch(GetAllProductInCategoryOneAsync(Number(id)))}
     if(product[0]) {
       setCorrectImage(product[0].image)}
-  }, [product]);
+  }, [product, id]);
 
 
 

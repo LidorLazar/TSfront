@@ -47,30 +47,6 @@ const App = () => {
                   </Link>
                   <Card.Text as="div">
                     <div className="my-3">
-                      {/* Check if rating bigger 1 so i get a star or helf star  */}
-                      <samp>
-                        <i className={product.rating >= 1 ? 'fas fa-star' : product.rating >= 0.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
-                      </samp>
-                      {/* Check if rating bigger 2 so i get a star or helf star  */}
-                      <samp>
-                        <i className={product.rating >= 2 ? 'fas fa-star' : product.rating >= 1.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
-                      </samp>
-                      {/* Check if rating bigger 3 so i get a star or helf star  */}
-                      <samp>
-                        <i className={product.rating >= 3 ? 'fas fa-star' : product.rating >= 2.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
-                      </samp>
-                      {/* Check if rating bigger 4 so i get a star or helf star  */}
-                      <samp>
-                        <i className={product.rating >= 4 ? 'fas fa-star' : product.rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
-                      </samp>
-                      {/* Check if rating bigger 5 so i get a star or helf star  */}
-                      <samp>
-                        <i className={product.rating >= 5 ? 'fas fa-star' : product.rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} style={{ color: "gold" }}> </i>
-                      </samp>
-                      <br/>
-                      <span>
-                      {product.num_reviews} Reviews
-                      </span>
                     </div>
                   </Card.Text>
                   <Card.Text as="h3">${[product.price]}</Card.Text>

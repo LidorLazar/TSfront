@@ -4,6 +4,8 @@ import ProductSlice from '../Product/ProductSlice';
 import LoginSlicer from '../Login/LoginSlicer';
 import UserSlice from '../User/UserSlice';
 import ReviewSlice from '../reviews/ReviewSlice';
+import OrderSlicer from '../Order/OrderSlicer';
+
 
 
 export const store = configureStore({
@@ -13,6 +15,7 @@ export const store = configureStore({
     login: LoginSlicer,
     user: UserSlice,
     review: ReviewSlice,
+    order: OrderSlicer
 
   },
 });

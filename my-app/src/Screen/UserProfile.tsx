@@ -1,10 +1,10 @@
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Button, Card, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {GetUserPofileAsync } from '../User/UserSlice'
-import UpdateProfile from "./UpdateProfile";
+
 
 
 const UserProfile = () => {

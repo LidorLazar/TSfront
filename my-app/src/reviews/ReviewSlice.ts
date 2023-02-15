@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import {  SendReview, GetReview,GetAllReview} from './ReviewAPI';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {  SendReview, GetReview,GetAllReview, CheckProdReview} from './ReviewAPI';
 import { RootState } from '../app/store';
 import Review from '../model/review';
 
@@ -12,13 +12,15 @@ export interface ProductState {
   review: Review[]
   numReview:number
   rating:number
-
+  prodReview: number[]
 }
 const initialState: ProductState = {
   status: 'idle',
   review: [],
   numReview: 0,
-  rating:0
+  rating:0,
+  prodReview:[],
+
 
 };
 
@@ -50,6 +52,17 @@ export const GetAllReviewAsync = createAsyncThunk(
   }
 );
 
+
+export const CheckProdReviewwAsync = createAsyncThunk(
+  'review/CheckProdReview',
+  async () => {
+    const response = await CheckProdReview();
+    return response.data;
+  }
+);
+
+
+
 export const ReviewSlice = createSlice({
   name: 'review',
   initialState,
@@ -77,6 +90,8 @@ export const ReviewSlice = createSlice({
   }).addCase(SendReviewAsync.fulfilled, (state, action) => {
     
 
+}).addCase(CheckProdReviewwAsync.fulfilled, (state, actions)=>{
+  state.prodReview = actions.payload
 })
 
 
@@ -86,6 +101,7 @@ export const {  } = ReviewSlice.actions;
 export const selectReview = (state: RootState) => state.review.review;
 export const selectMumReview = (state: RootState) => state.review.numReview;
 export const selectRating = (state: RootState) => state.review.rating;
+export const selectProdReview = (state: RootState) => state.review.prodReview;
 
 
 

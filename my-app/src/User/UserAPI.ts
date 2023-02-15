@@ -41,3 +41,6 @@ export function UpdateDataUserProfile(data: any) {
       return new Promise<{ data: Order[] }>((resolve) => 
       axios.get("http://127.0.0.1:8000/api/users/orders/", config).then(res => resolve({ data: res.data }))
       )}
+
+
+    

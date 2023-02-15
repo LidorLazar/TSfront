@@ -2,7 +2,6 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import App from "./App";
 import "../src/bootstrap.min.css";
 import Header from "./compomemts/Header";
 import Footer from "./compomemts/Footer";
@@ -19,22 +18,45 @@ import UserProfile from "./Screen/UserProfile";
 import UpdateProfile from "./Screen/UpdateProfile";
 import Page404 from "./Screen/Page404";
 import AbousUs from "./Screen/AbousUs";
+import ErrorFallback from "./compomemts/ErrorBoundary";
+import { ErrorBoundary } from "react-error-boundary";
+import CircularProgress from '@mui/material/CircularProgress';
+
+
 
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
+const App = React.lazy(() => import("./App"));
 
 root.render(
-
-
   <Provider store={store}>
     <BrowserRouter>
       <Header />
       <main className="py-3">
         <Container>
-        <Outlet/>
+          <Outlet />
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route
+              path="/"
+              element={
+                <ErrorBoundary
+                  FallbackComponent={ErrorFallback}
+                  onReset={() => {}}
+                >
+                  <React.Suspense
+                    fallback={
+                      <div className='d-flex justify-content-center'>
+                        <CircularProgress disableShrink />
+                      </div>
+                    }
+                  >
+                    <App />
+                  </React.Suspense>
+                </ErrorBoundary>
+              }
+            />
+
             <Route path="product/:id" element={<OneProduct />} />
             <Route path="category/:id" element={<Category />} />
             <Route path="login/" element={<Login />} />
@@ -42,7 +64,7 @@ root.render(
             <Route path="orders/" element={<Orders />} />
             <Route path="profile/" element={<UserProfile />} />
             <Route path="profile/update" element={<UpdateProfile />} />
-            <Route path="about/" element={<AbousUs/>} />
+            <Route path="about/" element={<AbousUs />} />
           </Routes>
         </Container>
       </main>

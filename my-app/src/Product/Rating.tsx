@@ -1,7 +1,7 @@
 import React from 'react'
 import { selectOneProduct } from '../Product/ProductSlice'
 import { useAppSelector } from "../app/hooks";
-import { selectMumReview, selectRating } from '../reviews/ReviewSlice'
+import { selectRating } from '../reviews/ReviewSlice'
  
  
 

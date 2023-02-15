@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import Product from "../model/product";
 import Cart from "../model/cart";
 
 export interface CartState {

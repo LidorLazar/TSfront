@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import {registerAsync, selecStatus} from "../Login/LoginSlicer";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { ToastContainer, toast } from 'react-toastify';
+import {registerAsync,} from "../Login/LoginSlicer";
+import { useAppDispatch } from "../app/hooks";
+import { ToastContainer } from 'react-toastify';
 
 
 

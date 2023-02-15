@@ -4,9 +4,9 @@ import { Col, Image, ListGroup, Button, Card, Row, Form } from "react-bootstrap"
 import { GetOneProductAsync, selectOneProduct, GetAllProducttAsync } from "../Product/ProductSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import Rating from "../Product/Rating";
-import { addToCard, selectCart } from '../Cart/CartSlice'
+import { addToCard} from '../Cart/CartSlice'
 import Reviews from "./Reviews";
-import { selectMumReview, selectRating } from '../reviews/ReviewSlice'
+import { selectMumReview } from '../reviews/ReviewSlice'
 
 
 
@@ -101,7 +101,7 @@ const OneProduct = () => {
                 {/* Check if the stock bigger 1 so display add to cart button else dispaly out of the stock  */}
                 {prod.count_in_stock > 0 ? (
                   <Button
-                  onClick={() => {dispatch(addToCard({"id": prod.id, "qty": qty, "price": qty * prod.price, "image":prod.image, "product_name":prod.product_name}))}}
+                  onClick={() => {dispatch(addToCard({"id": prod.id, "qty": qty, "price":  prod.price, "image":prod.image, "product_name":prod.product_name}))}}
                     type="button"
                     className="btn btn-outline-success"
                     style={{ margin: "20px" }}

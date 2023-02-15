@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Container, Navbar, Nav,NavDropdown } from "react-bootstrap";
-import { logOutAsync, selectLogged, selectUser } from '../Login/LoginSlicer'
+import { NavDropdown } from "react-bootstrap";
+import { logOutAsync } from '../Login/LoginSlicer'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { Link } from "react-router-dom";
 import { toast, Slide, ToastContainer } from "react-toastify";

@@ -32,3 +32,16 @@ export function SendReview(detalis:any) {
   );
   
   }
+
+
+  export function CheckProdReview() {
+    const tokenAccess = JSON.parse(String(localStorage.getItem("token")))
+      let config = {
+          headers: {
+            'Authorization': 'Bearer ' + tokenAccess
+          }
+        }
+      return new Promise<{ data: any}>((resolve) => 
+      axios.get("http://localhost:3000/api/users/orders/product/", config).then(res => resolve({ data: res.data })))
+    }
+  

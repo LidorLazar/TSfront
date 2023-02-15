@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {  GetAllProduct, GetOneProduct, GetAllProductInCategoryOne } from './ProductAPI';
 import { RootState } from '../app/store';
 import Product from '../model/product';
