@@ -9,7 +9,4 @@ export default class User{
     address:string=''
     city:string=''
     phone_number:string=''
-
-
-
 }

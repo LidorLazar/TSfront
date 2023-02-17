@@ -1,64 +1,76 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Cart from'../model/cart'
-import { createNewOrder } from './OrderApi';
-import OrderData from '../model/orderData';
-import { Action } from '@remix-run/router';
-import { RootState } from '../app/store';
-
-
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Cart from "../model/cart";
+import { createNewOrder } from "./OrderApi";
+import { RootState, store } from "../app/store";
 
 export interface OrderState {
-  order: []
-  address:string
-  city:string
-  country:string
-  postalCaode:string
+  address: string;
+  city: string;
+  country: string;
+  zip_code: string;
 }
 
 const initialState: OrderState = {
-  order: [],
-  address: '',
-  city: '',
-  country: '',
-  postalCaode: ''
+  address: "",
+  city: "",
+  country: "",
+  zip_code: "",
 };
 
-
-
 export const createNewOrderAsync = createAsyncThunk(
-  'order/newOrder', 
-  async(data: {orderData: OrderData, orderDetails: Cart[]}) => {
-      const total = data.orderDetails.reduce((accumulate, item) => accumulate + item.price * item.qty, 0)
-      const quantity = data.orderDetails.reduce((accumulate, item) => accumulate + item.qty, 0)
-      const orderDataWithTotalAndQuantity = {...data.orderData, total, quantity}
-      const response = await createNewOrder(orderDataWithTotalAndQuantity, data.orderDetails)
-      return response.data;
-}
-)
+  "order/newOrder",
+  async (data: { orderDetails: Cart[] }) => {
+    const total = data.orderDetails.reduce(
+      (accumulate, item) => accumulate + item.price * item.qty,
+      0
+    );
+    const quantity = data.orderDetails.reduce(
+      (accumulate, item) => accumulate + item.qty,
+      0
+    );
+    const orderDataWithTotalAndQuantity = {
+      ...store.getState().order,
+      total,
+      quantity,
+    };
 
+    const response = await createNewOrder(
+      orderDataWithTotalAndQuantity,
+      data.orderDetails
+    );
+    return response.data;
+  }
+);
 
 export const orderSlice = createSlice({
-  name: 'order', 
-  initialState, 
+  name: "order",
+  initialState,
   reducers: {
-    NewAddress: (state, action) => {state.address = action.payload},
-    NewCity: (state, action) => {state.city = action.payload},
-    NewCountry: (state, action) => {state.country = action.payload},
-    NewPostalCode: (state, action) => {state.postalCaode = action.payload}
-  }, 
+    NewAddress: (state, action) => {
+      state.address = action.payload;
+    },
+    NewCity: (state, action) => {
+      state.city = action.payload;
+    },
+    NewCountry: (state, action) => {
+      state.country = action.payload;
+    },
+    NewPostalCode: (state, action) => {
+      state.zip_code = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-      builder.addCase(createNewOrderAsync.fulfilled, (state, action) => {
-        console.log(action.payload.user)
-          state.order = action.payload
-      })
-}
-})
+    // builder.addCase(createNewOrderAsync.fulfilled, (state, action) => {
+     
+    // });
+  },
+});
 
-
-export const { NewAddress, NewCity, NewCountry, NewPostalCode } = orderSlice.actions; 
-export const SelectNewAddress = (state:RootState)=> state.order.address
-export const SelectNewCity = (state:RootState)=> state.order.city
-export const SelectCountry = (state:RootState)=> state.order.country
-export const SelectPostalCaode = (state:RootState)=> state.order.postalCaode
+export const { NewAddress, NewCity, NewCountry, NewPostalCode } =
+  orderSlice.actions;
+export const SelectNewAddress = (state: RootState) => state.order.address;
+export const SelectNewCity = (state: RootState) => state.order.city;
+export const SelectCountry = (state: RootState) => state.order.country;
+export const SelectPostalCaode = (state: RootState) => state.order.zip_code;
 
 export default orderSlice.reducer;

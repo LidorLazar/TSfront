@@ -1,9 +1,9 @@
-export default class OrderData {
-    address: string = ""
-    city: string = ""
-    zip_code: string = ""
-    country: string = ""
-    price:number=0
-
-}
+export type OrderData = {
+    total: number;
+    quantity: number;
+    address: string;
+    city: string;
+    country: string;
+    zip_code: string;
+  };
 

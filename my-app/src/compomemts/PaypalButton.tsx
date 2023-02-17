@@ -3,54 +3,49 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import { selectCart } from "../Cart/CartSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { createNewOrderAsync } from '../Order/OrderSlicer'
-import {SelectNewAddress, SelectNewCity, SelectPostalCaode, SelectCountry} from '../Order/OrderSlicer'
+import { createNewOrderAsync } from "../Order/OrderSlicer";
+import {
+  SelectNewAddress,
+  SelectNewCity,
+  SelectPostalCaode,
+  SelectCountry,
+} from "../Order/OrderSlicer";
 
-
-const PaypalButton = (props:any) => {
+const PaypalButton = () => {
   const cart = useAppSelector(selectCart);
-  const newAddress = useAppSelector(SelectNewAddress)
-  const newCity = useAppSelector(SelectNewCity)
-  const newZipCode = useAppSelector(SelectPostalCaode)
-  const newCountry = useAppSelector(SelectCountry)
+  const newAddress = useAppSelector(SelectNewAddress);
+  const newCity = useAppSelector(SelectNewCity);
+  const newZipCode = useAppSelector(SelectPostalCaode);
+  const newCountry = useAppSelector(SelectCountry);
   let totalPrice = 0;
   const dispatch = useAppDispatch();
 
 
-  const sumbitHandler = () => {
-    const orderData = {
-      address: newAddress,
-      city: newCity,
-      zip_code: newZipCode,
-      country: newCountry,
-      price: totalPrice,
-    };
-    dispatch(createNewOrderAsync({ orderData, orderDetails: cart }));
-  };
-
   useEffect(() => {
     for (let index = 0; index < cart.length; index++) {
-      totalPrice +=Math.round(cart[index].price * cart[index].qty + Number.EPSILON) *100 /100;
+      totalPrice +=
+        (Math.round(cart[index].price * cart[index].qty + Number.EPSILON) * 100) /100;
     }
   }, [cart]);
 
-  console.log(newAddress)
-  const handleApprove = (data:any, actions:any) => {
+
+
+  const handleApprove = (data: any, actions: any) => {
     if (actions.order) {
       return actions.order
         .capture()
-        .then((details:any) => {
-          sumbitHandler();
-          console.log(newZipCode)
+        .then((details: any) => {
+          dispatch(createNewOrderAsync({ orderDetails: cart }));
+          console.log(newZipCode);
           toast.success(
             "Payment completed. Thank you " +
               (details.payer.name?.given_name || ""),
             {
               position: toast.POSITION.TOP_CENTER,
             }
-          )
-        },localStorage.removeItem('cart'))
-        .catch((error:any) => {
+          );
+        }, localStorage.removeItem("cart"))
+        .catch((error: any) => {
           toast.error("Error capturing the payment", {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -68,7 +63,7 @@ const PaypalButton = (props:any) => {
         }}
       >
         <PayPalButtons
-        disabled={!newAddress || !newCity || !newCountry || !newZipCode}
+          disabled={!newAddress || !newCity || !newCountry || !newZipCode}
           style={{ layout: "vertical" }}
           createOrder={(data, actions) => {
             return actions.order.create({
@@ -79,7 +74,7 @@ const PaypalButton = (props:any) => {
               ],
             });
           }}
-          onApprove={handleApprove}
+          onApprove={(data, action) => handleApprove(data, action)}
           onCancel={() => {
             toast.error("You cancelled the payment", {
               position: toast.POSITION.TOP_CENTER,
