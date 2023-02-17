@@ -20,6 +20,10 @@ const initialState: OrderState = {
 export const createNewOrderAsync = createAsyncThunk(
   "order/newOrder",
   async (data: { orderDetails: Cart[] }) => {
+    // SHOE X 2 (5$)
+// BRAIN X 1 (20$)
+// LADYBOY X5 (200$)
+//10 + 20 = 30 + 1000 = 1030;
     const total = data.orderDetails.reduce(
       (accumulate, item) => accumulate + item.price * item.qty,
       0
@@ -32,6 +36,8 @@ export const createNewOrderAsync = createAsyncThunk(
       ...store.getState().order,
       total,
       quantity,
+ 
+      
     };
 
     const response = await createNewOrder(
@@ -74,3 +80,5 @@ export const SelectCountry = (state: RootState) => state.order.country;
 export const SelectPostalCaode = (state: RootState) => state.order.zip_code;
 
 export default orderSlice.reducer;
+
+
