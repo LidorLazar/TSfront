@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { selectLogged, CurrectLogged, IsAdmin, CorrectToken } from "../Login/LoginSlicer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import User from "../Screen/User";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "../Screen/Cart";
 import { CorrectCart } from '../Cart/CartSlice'
+import { selectProduct } from "../Product/ProductSlice";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
+  
   const [getToken, setGetToken] = useState("");
   const [username, setUserName] = useState("");
   let logged = useAppSelector(selectLogged);
@@ -33,7 +36,6 @@ const Header = () => {
   }, [logged]);
 
  
-
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -52,6 +54,7 @@ const Header = () => {
                 <NavDropdown.Item as={Link} to="category/1">Soocer shoes</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="category/2" >Ball</NavDropdown.Item>
               </NavDropdown>
+              <SearchBar/>
             </Nav>
             <Nav>
               {getToken ? (

@@ -3,5 +3,7 @@ export default class OrderData {
     city: string = ""
     zip_code: string = ""
     country: string = ""
+    price:number=0
+
 }
 

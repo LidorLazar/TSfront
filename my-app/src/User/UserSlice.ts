@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import Order from '../model/order';
 import User from '../model/user';
 import { GetUserPofile, UpdateDataUserProfile, GetUserOrder } from './UserAPI'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from 'react-toastify';
+import Order from '../model/order';
 
 export interface UsertState {
   status:number

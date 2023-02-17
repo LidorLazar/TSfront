@@ -28,9 +28,6 @@ const OneProduct = () => {
   }, [id]);
 
 
-
-  console.log(rating)
-
   return (
     <div>
       <Link to="/" className="badge rounded-pill bg-dark">Go back</Link>

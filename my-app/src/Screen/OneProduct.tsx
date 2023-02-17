@@ -25,6 +25,7 @@ const OneProduct = () => {
     dispatch(GetOneProductAsync(Number(id)))
   }, [])
   
+ 
 
   useEffect(() => {
     

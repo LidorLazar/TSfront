@@ -6,7 +6,7 @@ import { NewAddress, SelectNewAddress, SelectNewCity, NewCity, NewCountry, Selec
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import PaypalButton from './PaypalButton';
 
-function OffCanvasExample(props:any) {
+function ProceedToCheckout(props:any) {
   const [show, setShow] = useState(false);
   const cart = useAppSelector(selectCart)
   const address = useAppSelector(SelectNewAddress)
@@ -76,9 +76,17 @@ function OffCanvasExample(props:any) {
           </Form.Group>
         </Offcanvas.Body>
 
+        <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+              />
+              <div className="animate__animated animate__bounce animate__delay-2s">
+
+              <i  className="d-flex justify-content-center fa-sharp fa-solid fa-arrow-down" style={{margin:'20px'}}></i>
+              </div>
         <PaypalButton/>
       </Offcanvas>
     </div>);
 }
 
-export default OffCanvasExample;
+export default ProceedToCheckout;

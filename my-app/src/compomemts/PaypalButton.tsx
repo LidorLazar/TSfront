@@ -4,56 +4,52 @@ import { toast } from "react-toastify";
 import { selectCart } from "../Cart/CartSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { createNewOrderAsync } from '../Order/OrderSlicer'
-import {SelectAddress, SelectCity} from '../User/UserSlice'
 import {SelectNewAddress, SelectNewCity, SelectPostalCaode, SelectCountry} from '../Order/OrderSlicer'
 
 
-const PaypalButton = () => {
+const PaypalButton = (props:any) => {
   const cart = useAppSelector(selectCart);
   const newAddress = useAppSelector(SelectNewAddress)
   const newCity = useAppSelector(SelectNewCity)
   const newZipCode = useAppSelector(SelectPostalCaode)
   const newCountry = useAppSelector(SelectCountry)
-
-
   let totalPrice = 0;
   const dispatch = useAppDispatch();
 
 
   const sumbitHandler = () => {
     const orderData = {
-      address: newAddress ,
+      address: newAddress,
       city: newCity,
       zip_code: newZipCode,
       country: newCountry,
+      price: totalPrice,
     };
     dispatch(createNewOrderAsync({ orderData, orderDetails: cart }));
   };
 
   useEffect(() => {
     for (let index = 0; index < cart.length; index++) {
-      totalPrice +=
-        Math.round(cart[index].price * cart[index].qty + Number.EPSILON) *
-        100 /
-        100;
+      totalPrice +=Math.round(cart[index].price * cart[index].qty + Number.EPSILON) *100 /100;
     }
   }, [cart]);
 
+  console.log(newAddress)
   const handleApprove = (data:any, actions:any) => {
     if (actions.order) {
-      
-      sumbitHandler();
       return actions.order
         .capture()
         .then((details:any) => {
+          sumbitHandler();
+          console.log(newZipCode)
           toast.success(
             "Payment completed. Thank you " +
               (details.payer.name?.given_name || ""),
             {
               position: toast.POSITION.TOP_CENTER,
             }
-          );
-        }, localStorage.removeItem('cart'))
+          )
+        },localStorage.removeItem('cart'))
         .catch((error:any) => {
           toast.error("Error capturing the payment", {
             position: toast.POSITION.TOP_CENTER,
@@ -102,9 +98,9 @@ const PaypalButton = () => {
 
 export default PaypalButton;
 
-function newOrderAsync(arg0: {
-  orderData: { address: any; city: any; zip_code: any; country: any };
-  orderDetails: import("../model/cart").default[];
-}): any {
-  throw new Error("Function not implemented.");
-}
+// function newOrderAsync(arg0: {
+//   orderData: { address: any; city: any; zip_code: any; country: any };
+//   orderDetails: import("../model/cart").default[];
+// }): any {
+//   throw new Error("Function not implemented.");
+// }

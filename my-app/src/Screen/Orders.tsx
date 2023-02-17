@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {GetUserOrderAsync, SelectOrderData } from '../User/UserSlice'
 
 
-
-
 const Order = () => {
   const orderData = useAppSelector(SelectOrderData)
   const dispatch = useAppDispatch()
@@ -17,7 +15,8 @@ const Order = () => {
 
   return (
     <div>
-    {orderData.map((item, index) => <div key={item.id}>
+    {orderData.length > 0?
+    orderData.map((item, index) => <div key={index}>
     <Table striped bordered hover>
       <thead>
         <tr>
@@ -32,18 +31,16 @@ const Order = () => {
         <tr>
           <td>total</td>
           <td>
-            <ul>
-              {item.total}$
-            </ul>
+            {item.price}$
           </td>
         </tr>
         <tr>
           <td>date</td>
-          <td>{item.create_order}</td>
+          <td>{item.order_date}</td>
         </tr>
       </tbody>
     </Table>
-    </div>)}
+    </div>) : <h2 className='d-flex justify-content-center'> NO ORDER </h2> }
     </div>
   );
 };
