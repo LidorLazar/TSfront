@@ -10,6 +10,7 @@ const SearchBar = () => {
   const products = useAppSelector(selectProduct);
   const filterProducts = products.filter((product) =>product.product_name.toLowerCase().includes(query))
 
+
   return (
     <div>
       <input

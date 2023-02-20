@@ -20,15 +20,12 @@ const PaypalButton = () => {
   let totalPrice = 0;
   const dispatch = useAppDispatch();
 
-
   useEffect(() => {
     for (let index = 0; index < cart.length; index++) {
       totalPrice +=
-        (Math.round(cart[index].price * cart[index].qty + Number.EPSILON) * 100) /100;
+        (Math.round(cart[index].price * cart[index].qty + Number.EPSILON) *100) / 100;
     }
   }, [cart]);
-
-
 
   const handleApprove = (data: any, actions: any) => {
     if (actions.order) {
@@ -36,7 +33,6 @@ const PaypalButton = () => {
         .capture()
         .then((details: any) => {
           dispatch(createNewOrderAsync({ orderDetails: cart }));
-          console.log(newZipCode);
           toast.success(
             "Payment completed. Thank you " +
               (details.payer.name?.given_name || ""),
@@ -44,7 +40,9 @@ const PaypalButton = () => {
               position: toast.POSITION.TOP_CENTER,
             }
           );
-        }, localStorage.removeItem("cart"))
+        },localStorage.removeItem("cart"), setTimeout(function () {
+          window.location.replace("/")
+        },2000))
         .catch((error: any) => {
           toast.error("Error capturing the payment", {
             position: toast.POSITION.TOP_CENTER,

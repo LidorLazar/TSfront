@@ -23,10 +23,9 @@ const OneProduct = () => {
   useEffect(() => {
     dispatch(GetAllProducttAsync())
     dispatch(GetOneProductAsync(Number(id)))
-  }, [])
+  }, [id])
   
  
-
   useEffect(() => {
     
     if(OneProd[0]) {
@@ -151,6 +150,7 @@ const OneProduct = () => {
         </div>
       ))}
       <br/>
+      {review === 0 ? <h3>No review</h3> : null}
       <Reviews/>
     </div>
   );

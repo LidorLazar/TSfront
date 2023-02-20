@@ -2,8 +2,6 @@ import axios from 'axios'
 import Product from '../model/product';
 
 
-const SERVER = "http://127.0.0.1:8000/api/products/"
-
 
 export function GetAllProduct() {
   return new Promise<{ data: Product[] }>((resolve) =>

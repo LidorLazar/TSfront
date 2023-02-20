@@ -22,21 +22,14 @@ const Reviews = () => {
   const rev = useAppSelector(selectReview);
   const listProduct = useAppSelector(selectProdReview);
   const [reviewButton, setReviewButton] = useState(false);
-  const [hasCheckedForPurchasedProducts, setHasCheckedForPurchasedProducts] = useState(false);
 
   useEffect(() => {
     dispatch(CheckProdReviewwAsync());
     dispatch(GetRivewAsync(Number(id)))
-    if (logged && !hasCheckedForPurchasedProducts) {
-        setHasCheckedForPurchasedProducts(true);
-    }
-}, [dispatch, id, logged, hasCheckedForPurchasedProducts])
-
-useEffect(() => {
     if (listProduct.includes(Number(id))) {
-        setReviewButton(true)
-    }
-}, [listProduct, id])
+      setReviewButton(true)
+  }
+}, [id])
 
 
 

@@ -31,7 +31,6 @@ addToCard: (state, action) => {
       if (!CorrectCart) {
         state.cart.push(action.payload);
       }
-      // console.log(current(state.cart));
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     deletFromCart: (state, action) => {

@@ -42,6 +42,6 @@ export function SendReview(detalis:any) {
           }
         }
       return new Promise<{ data: any}>((resolve) => 
-      axios.get("http://localhost:3000/api/users/orders/product/", config).then(res => resolve({ data: res.data })))
+      axios.get("http://127.0.0.1:8000/api/users/orders/product/", config).then(res => resolve({ data: res.data })))
     }
   

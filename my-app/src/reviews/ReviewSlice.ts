@@ -28,7 +28,6 @@ export const SendReviewAsync = createAsyncThunk(
   'review/SendReview',
   async (detalis:any) => {
     const response = await SendReview(detalis);
-    console.log(response)
     return response;
   }
 );
